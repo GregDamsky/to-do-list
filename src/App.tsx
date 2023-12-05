@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './App.module.scss';
 import Classnames from 'classnames';
+import TaskItem from './TaskItem'
 
 function App() {
     const [count, setCount] = useState(0);
@@ -22,6 +23,7 @@ function App() {
                         <h3 className={styles['list--added-task']}>Task 3</h3>
                         <button className={styles['delete--task-button']}>Delete</button>
                     </li>
+                    <TaskItem />
                 </ul>
                 <button className={styles['clear--all-button']}>Clear All</button>
             </div>
