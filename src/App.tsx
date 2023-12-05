@@ -1,60 +1,35 @@
 import { useState } from 'react';
-import classNames from 'classnames';
-import { ReactComponent as ReactLogo } from './assets/react.svg';
-import { ReactComponent as ViteLogo } from './assets/vite.svg';
-import { ReactComponent as TypescriptLogo } from './assets/typescript.svg';
-import { ReactComponent as ScssLogo } from './assets/scss.svg';
 import styles from './App.module.scss';
+import Classnames from 'classnames';
 
 function App() {
     const [count, setCount] = useState(0);
 
     return (
-        <div className={styles.App}>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <ViteLogo
-                        height="6em"
-                        width="6em"
-                        className={classNames(styles.logo)}
-                        title="Vite logo"
-                    />
-                </a>
-                <a href="https://reactjs.org" target="_blank">
-                    <ReactLogo
-                        height="6em"
-                        width="6em"
-                        className={classNames(styles.logo, styles.react)}
-                        title="React logo"
-                    />
-                </a>
-                <a href="https://www.typescriptlang.org/" target="_blank">
-                    <TypescriptLogo
-                        height="6em"
-                        width="6em"
-                        className={classNames(styles.logo, styles.ts)}
-                        title="Typescript logo"
-                    />
-                </a>
-                <a href="https://sass-lang.com/" target="_blank">
-                    <ScssLogo
-                        height="6em"
-                        width="6em"
-                        className={classNames(styles.logo, styles.scss)}
-                        title="SCSS logo"
-                    />
-                </a>
+        <main>
+            <h2 className={styles.title}>My ToDo List</h2>
+            <div className={styles.tasks}>
+                <ul className={styles['ul--tasks--list']}>
+                    <li className={styles['list--item']}>
+                        <h3 className={styles['list--added-task']}>Task 1</h3>
+                        <button className={styles['delete--task-button']}>Delete</button>
+                    </li>
+                    <li className={styles['list--item']}>
+                        <h3 className={styles['list--added-task']}>Task 2</h3>
+                        <button className={styles['delete--task-button']}>Delete</button>
+                    </li>
+                    <li className={styles['list--item']}>
+                        <h3 className={styles['list--added-task']}>Task 3</h3>
+                        <button className={styles['delete--task-button']}>Delete</button>
+                    </li>
+                </ul>
+                <button className={styles['clear--all-button']}>Clear All</button>
             </div>
-            <div className={styles.card}>
-                <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className={styles['read-the-docs']}>
-                Click on the Vite and React logos to learn more
-            </p>
-        </div>
+            <footer className={styles['footer--task']}>
+                <input className={styles['footer--input']} placeholder="Type your task here"/>
+                <button className={Classnames(styles['footer--task'], styles['footer--add-button'])}>Add</button>
+            </footer>
+        </main>
     );
 }
 

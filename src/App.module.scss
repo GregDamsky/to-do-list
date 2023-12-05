@@ -1,51 +1,82 @@
-.App {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.list--item {
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    gap: 15px;
+    align-items: center;
+    font-size: 1.1em;
+    line-height: 1;
+    border-radius: 8px;
+    margin: 0px 0px 5px;
+    flex-grow: 0.8;
+    border: 1px solid black;
+    grid-auto-flow: column;
+    list-style-type: none;
 }
 
-.logo {
-  padding: 1.25em;
-  will-change: filter;
-  transition: filter 300ms;
+.clear--all-button {
+    text-align: center;
+    padding-bottom: 0.6em;
+    margin: 0px;
+    min-width: 300px;
+    height: 25px;
+    line-height: 0.5;
+    font-size: 1em;
+    border-radius: 25px;
+    background-color: #EE2929;
+    background-attachment: scroll;
+    background-origin: padding-box;
+    background-clip: border-box;
+    cursor: pointer;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.ul--tasks--list {
+    margin: 0px;
+    width: 100%;
 }
 
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.footer--task {
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    line-height: 1.1;
+    font-weight: 500;
+    gap: 0px;
+    text-align: center;
+    height: 30px;
+    justify-content: space-evenly;
+
 }
 
-.logo.ts:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
+.footer--input {
+    min-height: auto;
+    min-width: 400px;
+    height: 100%;
 }
 
-.logo.scss:hover {
-  filter: drop-shadow(0 0 2em #cc6698aa);
+.list--added-task {
+    border: 0px solid black;
+    margin: 0px 0px 0px 10px;
+    flex-grow: 80;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.delete--task-button {
+    margin-left: 0px;
+    flex-grow: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.title {
+    margin: 0px 0px 12px;
 }
 
-.card {
-  padding: 2em;
+.tasks {
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
-.read-the-docs {
-  color: #888;
+.footer--add-button {
+    background-color: #ACD3C0;
 }
