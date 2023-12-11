@@ -11,6 +11,10 @@ function App() {
         // console.log(event.target?.addEventListener)
     }
 
+    function ClearTasksList () {
+        console.log("Emptying tasks list")
+        setTasksArray([])
+    }
     return (
         <main>
             <h2 className={styles.title}>My ToDo List</h2>
@@ -27,7 +31,7 @@ function App() {
 
                     {/* <TaskItem /> */}
                 </ul>
-                <button className={styles['clear--all-button']}>Clear All</button>
+                <button className={styles['clear--all-button']} onClick={ClearTasksList}>Clear All</button>
             </div>
             <footer className={styles['footer--task']}>
                 <input type="text" className={styles['footer--input']} placeholder="Type your task here"/>
