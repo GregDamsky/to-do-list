@@ -63,6 +63,13 @@
 .delete--task-button {
     margin-left: 0px;
     flex-grow: 1;
+    font-style: normal;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0px 5px;
+    text-align: center;
+    flex-basis: 0px;
 }
 
 .title {
@@ -79,4 +86,5 @@
 
 .footer--add-button {
     background-color: #ACD3C0;
+    font-style: italic;
 }
