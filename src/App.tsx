@@ -22,6 +22,7 @@ function App() {
     function DeleteTask(task) {
         const newTasksArray = tasksArray.filter((item) => { item.id != task.id })
         console.log(newTasksArray)
+        //setTasksArray(newTasksArray)
     }
 
     function ClearTasksList () {
