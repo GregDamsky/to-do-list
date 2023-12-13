@@ -1,9 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import styles from './App.module.scss';
-import Classnames from 'classnames';
-import TaskItem from './TaskItem'
-import Tasks from './Tasks';
+import TasksList from './components/TasksList';
 import { Item } from './types';
+import NewTask from './components/NewTask';
 
 
 
@@ -17,8 +16,7 @@ function App() {
     }
 
     function AddItem() {
-        console.log(newTaskItem)
-        setTasksArray([...tasksArray, { id: tasksArray.length, item: newTaskItem }])
+        setTasksArray([...tasksArray, { id: tasksArray.slice(-1)[0].id + 1, item: newTaskItem }])
         setNewTaskItem("")
     }
 
@@ -28,19 +26,16 @@ function App() {
     }
 
     function ClearTasksList() {
-        console.log("Emptying tasks list")
         setTasksArray([])
     }
 
     return (
          <main>
              <h2 className={styles.title}>My ToDo List</h2>
-             <Tasks items={tasksArray} onDetele={DeleteTask} clearAll={ClearTasksList} />
+             <TasksList items={tasksArray} onDetele={DeleteTask} clearAll={ClearTasksList} />
+
+             <NewTask item={newTaskItem} typeText={TextTyping} onAdd={AddItem}/>
             
-             <footer className={styles['footer--task']}>
-                 <input type="text" className={styles['footer--input']} onChange={TextTyping} placeholder="Type your task here" value={newTaskItem} />
-                 <button type="button" className={Classnames(styles['footer--task'], styles['footer--add-button'])} onClick={AddItem}>Add</button>
-             </footer>
         </main>
     );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './App.module.scss';
-import { Item } from './types';
+import styles from '../App.module.scss';
+import { Item } from '../types';
 
 
-function Tasks( props: {items: Item[], onDetele: (id: number) => void, clearAll: () => void}) {
+function TasksList( props: {items: Item[], onDetele: (id: number) => void, clearAll: () => void}) {
     
 
     return (
@@ -18,12 +18,10 @@ function Tasks( props: {items: Item[], onDetele: (id: number) => void, clearAll:
                     </li>
                 )
             }
-
-           {/* <TaskItem /> */}
         </ul>
         <button className={styles['clear--all-button']} onClick={props.clearAll}>Clear All</button>
     </div>
     );
 }
 
-export default Tasks
+export default TasksList
