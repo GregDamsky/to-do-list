@@ -12,5 +12,6 @@ export default createBoard({
         canvasBackgroundColor: 'rgba(146, 146, 146, 0.19)',
         canvasWidth: 592,
         windowHeight: 395, windowWidth: 694, canvasHeight: 512
-    }
+    },
+    isSnippet: false
 });
