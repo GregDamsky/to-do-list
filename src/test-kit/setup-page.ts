@@ -1,16 +1,15 @@
-import { Browser, BrowserContext, Page, chromium } from 'playwright';
+import { Browser, BrowserContext, chromium } from 'playwright';
 
 export async function setupPage() {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({headless: false, timeout: 30_000});
     const context = await browser.newContext();
     const page = await context.newPage();
-    await page.goto('https://localhost:5173');
-    
+
+
     return {page, context, browser}
 }
 
-export async function closePage(page: Page, context: BrowserContext , browser: Browser) {
-    await page.close()
+export async function closePage(context: BrowserContext , browser: Browser) {
     await context.close()
     await browser.close()
 }
