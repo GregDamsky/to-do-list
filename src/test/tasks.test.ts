@@ -1,9 +1,12 @@
 import { closePage, setupPage } from '../test-kit/setup-page';
 import { Browser, BrowserContext, Page } from 'playwright';
+import { ToDoList } from '../test-kit/todo-list-driver';
+import { assert } from 'console';
+import { expect } from 'playwright/test';
 
 describe('name of the suite', () => {
     let page: Page, context: BrowserContext, browser: Browser;
-
+    
     before(async function () {
         const { page: newPage, context: newContext, browser: newBrowser} = await setupPage();
         page = newPage;
@@ -23,8 +26,12 @@ describe('name of the suite', () => {
         await closePage(context, browser);
     });
 
-    it('name of the test', async () => {
-        console.log('hello');
+    it('find existing task in the list', async () => {
+
+        const myToDoList = new ToDoList(page)
+        const taskIndex = await myToDoList.getRandomIndex()
+        const taskText = await myToDoList.getTaskFromList(taskIndex)
+        expect(await myToDoList.isTaskInList(taskText)).toBe(true)
 
     });
 });

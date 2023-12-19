@@ -14,7 +14,7 @@ export class ToDoList{
 
     async getRandomIndex (){
         const maxIndex = (await this.getAllTasks()).length
-        console.log(Math.floor(Math.random() * maxIndex))
+        return Math.floor(Math.random() * maxIndex)
         
     }
 
@@ -29,17 +29,23 @@ export class ToDoList{
         }
     }
 
-    async isTaskInList (task: string){
-        console.log(`searching ${task} in the list...`)
-        for (const row of await this.getAllTasks())
-        {
-                if (task === await row.textContent()) {
-                console.log (`task: ${task} was found in the list...`)
-                return true
+    async isTaskInList (task: string | null | undefined){
+        if ( task !== undefined && task !== null) {
+            console.log(`searching ${task} in the list...`)
+            for (const row of await this.getAllTasks())
+            {
+                    if (task === await row.textContent()) {
+                    console.log (`task: ${task} was found in the list...`)
+                    return true
+                }
             }
+            console.log (`task: ${task} is not in the list...`)
+            return false
         }
-        console.log (`task: ${task} is not in the list...`)
-        return false
+        else {
+            console.log (`task: ${task} is not of type string`)
+            return false
+        }
     }
 
 }
