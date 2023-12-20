@@ -1,4 +1,4 @@
-import { Page  } from "playwright";
+import { Locator, Page  } from "playwright";
 
 export class ToDoList{
 
@@ -8,20 +8,43 @@ export class ToDoList{
         this.page = page;
     }
 
-    async getAllTasks (){
-        return await this.page.getByRole('listitem').getByRole('heading').all()
+    async getAllListItems() {
+        return await this.page.getByRole('listitem').all();
+    }
+      
+    async getDataByElementWithinListItems(listItems: Promise<Locator[]>, element?: string) {
+        switch(element !== '') { 
+            case (element === 'heading'): { 
+                return (await listItems).map(async (listItem) => {
+                    return listItem.getByRole('heading');
+                });
+                break; 
+            }
+            case (element === 'button'): { 
+                return (await listItems).map(async (listItem) => {
+                    return listItem.getByRole('button');
+                });
+                break; 
+            }  
+            default: { 
+               console.log(`Unknown element ${element} to locate in the list`)
+               return listItems 
+               break; 
+            } 
+         }
     }
 
     async getRandomIndex (){
-        const maxIndex = (await this.getAllTasks()).length
+        const maxIndex = (await this.getAllListItems()).length
         return Math.floor(Math.random() * maxIndex)
         
     }
 
     async getTaskFromList (taskIndex: number) {
-        const tasks = await this.getAllTasks() 
+        const tasks = await this.getDataByElementWithinListItems(this.getAllListItems(), 'heading') 
         if (taskIndex <= tasks.length){
-            return tasks[taskIndex].textContent()
+            const task = await tasks[taskIndex];
+            return await (task.textContent())
         }
         else{
             console.log(`No such id (${taskIndex}) in the ToDoList`)
@@ -32,9 +55,9 @@ export class ToDoList{
     async isTaskInList (task: string | null | undefined){
         if ( task !== undefined && task !== null) {
             console.log(`searching ${task} in the list...`)
-            for (const row of await this.getAllTasks())
+            for (const row of await this.getDataByElementWithinListItems(this.getAllListItems(), 'heading'))
             {
-                    if (task === await row.textContent()) {
+                if (task === await (await row).textContent()) {
                     console.log (`task: ${task} was found in the list...`)
                     return true
                 }
