@@ -41,12 +41,12 @@ describe('My ToDo List Page Tests', () => {
 
         const myToDoList = new ToDoList(page)
         const itemsInListBeforeDeletion = await myToDoList.getNumberOfItemsInList()
-        let { isFound: isFound1, taskIndex: taskIndex1 } = await myToDoList.isTaskInList(taskToRemove)
+        const { isFound: isFound1, taskIndex: taskIndex1 } = await myToDoList.isTaskInList(taskToRemove)
         expect(isFound1).toBe(true)
         await myToDoList.deleteTaskFromList(taskToRemove)    
         
         //run same test to check if task indeed deleted from the list
-        let { isFound: isFound2, taskIndex: taskIndex2 } = await myToDoList.isTaskInList(taskToRemove)
+        const { isFound: isFound2, taskIndex: taskIndex2 } = await myToDoList.isTaskInList(taskToRemove)
         expect(isFound2).toBe(false)
 
         const itemsInListAfterDeletion = await myToDoList.getNumberOfItemsInList()
@@ -54,5 +54,26 @@ describe('My ToDo List Page Tests', () => {
         expect(itemsInListAfterDeletion).toEqual(itemsInListBeforeDeletion - 1)
         
     });
+
+    it('Delete all tasks in the list using directly clear all button', async () => {       
+        
+        const myToDoList = new ToDoList(page)
+        await page.getByRole('button', { name: 'Clear All' }).click();
+        expect(await myToDoList.getNumberOfItemsInList()).toBe(0)
+
+    });
+
+
+    it('Add a randomly generated task to the list', async () => {       
+        
+        const myToDoList = new ToDoList(page)
+        const task = await myToDoList.typeNewTask()
+        await page.getByRole('button', { name: 'Add' }).click()
+        const { isFound, taskIndex } = await myToDoList.isTaskInList(task)
+        expect(isFound).toBe(true)
+
+    });
+
+
 
 });

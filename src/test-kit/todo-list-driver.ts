@@ -37,7 +37,10 @@ export class ToDoList{
     async getNumberOfItemsInList()
     {
         let maxIndex = (await this.getAllListItems()).length
-        if (maxIndex >= 0) return maxIndex
+        if (maxIndex >= 0) {
+            console.log(`There are ${maxIndex} items in the list`)
+            return maxIndex
+        }
         else {
             console.log("Given list is empty")
             return maxIndex = -1
@@ -107,6 +110,35 @@ export class ToDoList{
         else {
             console.log(`Couldn't find task: ${task} in list... No tasks to delete`)
         }
+    }
+
+    generateRandomSentence(): string {
+        const word1 = ['Complete', 'Prepare', 'Garden', 'Study', 'Handle', 'Exercise', 
+                       'Stay', 'Plan', 'Daily', 'Home', 'Chores', 'Write', 'Outdoor', 'Letters'];
+
+        const word2 = ['daily', 'evening', 'and', 'read', 'errands', 'productive',
+                       'study', 'routine', 'tasks', 'hiking', 'for'];
+
+        const word3 = ['chores', 'meal', 'write', 'housework', 'online', 'travel',
+                       'relax', 'hobbies', 'exercise', 'call', 'today', 'books'];
+      
+        const randomWord1 = word1[Math.floor(Math.random() * word1.length)];
+        const randomWord2 = word2[Math.floor(Math.random() * word2.length)];
+        const randomWord3 = word3[Math.floor(Math.random() * word3.length)];
+      
+        const sentence = `${randomWord1} ${randomWord2} ${randomWord3}.`;
+      
+        return sentence;
+    }
+
+    async typeNewTask (task?: string) {
+        if ((task === "") || (task === undefined)) {
+            console.log("You didn't type any specific task.\n I'll use a \"funny generator\" to generate a task to add...") 
+            task = this.generateRandomSentence()
+        }
+        console.log(`Adding a new task "${task}" to the list`) 
+        await this.page.getByPlaceholder('Type your task here').fill(`${task}`);
+        return task
     }
 
 }
