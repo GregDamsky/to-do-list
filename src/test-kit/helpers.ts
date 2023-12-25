@@ -1,7 +1,3 @@
-export function getArrayRandomItem<T>(arr: T[]) {
-    return;
-}
-
 export function getRandomIndex(maxIndex: number) {
     if (maxIndex > -1) {
         return Math.floor(Math.random() * maxIndex);

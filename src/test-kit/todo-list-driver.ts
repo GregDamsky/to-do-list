@@ -1,145 +1,117 @@
-import { Locator, Page  } from "playwright";
+import { Locator, Page } from 'playwright';
+import { generateRandomSentence } from './helpers';
 
-export class ToDoList{
-
-    page: Page
-
-    constructor (page: Page) {
-        this.page = page;
-    }
+export class ToDoList {
+    constructor(private page: Page) {}
 
     async getAllListItems() {
-        return await this.page.getByRole('listitem').all();
-    }
-    
-    async getDataByElementWithinListItems(listItems: Promise<Locator[]>, element?: string) {
-        switch(element !== '') { 
-            case (element === 'heading'): { 
-                return (await listItems).map(async (listItem) => {
-                    return listItem.getByRole('heading');
-                });
-                break; 
-            }
-            case (element === 'button'): { 
-                return (await listItems).map(async (listItem) => {
-                    return listItem.getByRole('button');
-                });
-                break; 
-            }  
-            default: { 
-               console.log(`Unknown element ${element} to locate in the list`)
-               return listItems 
-               break; 
-            } 
-         }
+        return this.page.getByRole('listitem').all();
     }
 
-    async getNumberOfItemsInList()
-    {
-        let maxIndex = (await this.getAllListItems()).length
-        if (maxIndex >= 0) {
-            console.log(`There are ${maxIndex} items in the list`)
-            return maxIndex
-        }
+    async getAllListItemTitles() {
+        return this.page.locator('.list--added-task').allTextContents();
+    }
+
+    async getTaskLocatorByTitle(title: string) {
+        const taskIndex = await this.getTaskIndexFromList(title);
+        return this.page.getByRole('listitem').nth(taskIndex);
+    }
+
+    async getLocatorsByRole(listItems: Locator[], role: 'heading' | 'button') {
+        return listItems.map((listItem) => listItem.getByRole(role));
+    }
+
+    async getNumberOfItemsInList() {
+        return (await this.getAllListItems()).length;
+    }
+
+    async getTaskFromListByIndex(taskIndex: number) {
+        const tasks = await this.getLocatorsByRole(await this.getAllListItems(), 'heading');
+        if (taskIndex <= tasks.length)
+            return this.page
+                .getByRole('listitem')
+                .getByRole('heading')
+                .nth(taskIndex)
+                .textContent();
         else {
-            console.log("Given list is empty")
-            return maxIndex = -1
-        } 
-    }
-
-    async getRandomIndex (maxIndex: number){
-        
-        if (maxIndex > -1) { 
-            return Math.floor(Math.random() * maxIndex)
-        }
-        console.log(`Wrong value range for random index ${maxIndex}`)
-        return maxIndex
-        
-    }
-
-    async getTaskFromList (taskIndex: number) {
-        const tasks = await this.getDataByElementWithinListItems(this.getAllListItems(), 'heading') 
-        if (taskIndex <= tasks.length){
-            const task = await tasks[taskIndex];
-            return await (task.textContent())
-        }
-        else{
-            console.log(`No such id (${taskIndex}) in the ToDoList`)
-            return undefined
+            console.log(`No such id (${taskIndex}) in ToDoList`);
+            return '';
         }
     }
 
-    async isTaskInList (task: string | null | undefined){
-        let isFound = false
-        let taskIndex = -1;
-        if ( task !== undefined && task !== null) {
-            console.log(`searching ${task} in the list...`)
-            taskIndex = 0
-            for (const row of await this.getDataByElementWithinListItems(this.getAllListItems(), 'heading'))
-            {
-                if (task === await (await row).textContent()) {
-                    console.log (`task: ${task} was found in the list...`)
-                    isFound = true
-                    return {isFound, taskIndex}
+    async getTaskIndexFromList(task: string) {
+        const titles = await this.getAllListItemTitles();
+        return titles.indexOf(task) ? titles.indexOf(task) : -1;
+    }
+
+    async isTaskListEqualsArrayItems(arr: string[]) {
+        let isIdentical = true;
+        if ((await this.getNumberOfItemsInList()) !== arr.length) {
+            isIdentical = false;
+            console.log(
+                "Amount of items in array isn't identical to amount of items in the task list"
+            );
+        }
+        for (const item of arr) {
+            if (!(await this.isTaskInList(item))) {
+                isIdentical = false;
+                console.log(`Item "${item}" isn't part of the task list`);
+                break;
+            }
+        }
+        return isIdentical;
+    }
+
+    async isTaskInList(task: string) {
+        // console.log(`searching ${task} in the list...`);
+        // const titles = await this.getAllListItemTitles();
+        // const isFound = titles.includes(task);
+        // isFound
+        //     ? console.log(`task: ${task} was found in the list...`)
+        //     : console.log(`task: ${task} is not in the list...`);
+        // return isFound;
+
+        let isFound = false;
+        if (task !== undefined && task !== null) {
+            for (const row of await this.getLocatorsByRole(
+                await this.getAllListItems(),
+                'heading'
+            )) {
+                if (task === (await row.textContent())) {
+                    console.log(`task: ${task} was found in the list...`);
+                    isFound = true;
+                    return isFound;
                 }
-                taskIndex += 1; 
             }
-            taskIndex = -1
-            console.log (`task: ${task} is not in the list...`)
-            return {isFound, taskIndex}
-        }
-        else {
-            console.log (`task: ${task} is not of type string`)
-            return {isFound, taskIndex}
+            console.log(`task: ${task} is not in the list...`);
+            return isFound;
+        } else {
+            console.log(`task: ${task} is not of type string`);
+            return isFound;
         }
     }
 
-    async deleteTaskFromList (task?: string | null | undefined) {
-        if (task === "" || task === null || task === undefined) {
-            console.log ("No task is selected... Thus we'll be randomizing a task to delete")
-            const taskIndexToDelete = await this.getRandomIndex(await this.getNumberOfItemsInList())
-            task = await this.getTaskFromList(taskIndexToDelete)
-        }
-        const {isFound, taskIndex} = await this.isTaskInList(task)
+    async deleteTaskFromList(task?: string) {
+        if (task === undefined) task = '';
+        const isFound = await this.isTaskInList(task);
         if (isFound) {
-            console.log(`Deleteing task: ${task}`)
-            const allDeleteButtons = await this.getDataByElementWithinListItems(this.getAllListItems(), 'button')
-            await (await allDeleteButtons[taskIndex]).getByText("Delete").click()
-            console.log(`Task: ${task} successfully deleted`)
-        }
-        else {
-            console.log(`Couldn't find task: ${task} in list... No tasks to delete`)
-        }
+            const mytask = await this.getTaskLocatorByTitle(task);
+            console.log(`deleting task: ${task}`);
+            const deleteButton = mytask.locator('button');
+            await deleteButton.click();
+            console.log(`Task: ${task} successfully deleted`);
+        } else console.log(`Couldn't find task: "${task}" in list... No tasks to delete`);
     }
 
-    generateRandomSentence(): string {
-        const word1 = ['Complete', 'Prepare', 'Garden', 'Study', 'Handle', 'Exercise', 
-                       'Stay', 'Plan', 'Daily', 'Home', 'Chores', 'Write', 'Outdoor', 'Letters'];
-
-        const word2 = ['daily', 'evening', 'and', 'read', 'errands', 'productive',
-                       'study', 'routine', 'tasks', 'hiking', 'for'];
-
-        const word3 = ['chores', 'meal', 'write', 'housework', 'online', 'travel',
-                       'relax', 'hobbies', 'exercise', 'call', 'today', 'books'];
-      
-        const randomWord1 = word1[Math.floor(Math.random() * word1.length)];
-        const randomWord2 = word2[Math.floor(Math.random() * word2.length)];
-        const randomWord3 = word3[Math.floor(Math.random() * word3.length)];
-      
-        const sentence = `${randomWord1} ${randomWord2} ${randomWord3}.`;
-      
-        return sentence;
-    }
-
-    async typeNewTask (task?: string) {
-        if ((task === "") || (task === undefined)) {
-            console.log("You didn't type any specific task.\n I'll use a \"funny generator\" to generate a task to add...") 
-            task = this.generateRandomSentence()
-        }
-        console.log(`Adding a new task "${task}" to the list`) 
+    async addTask(task?: string) {
+        console.log(`Adding a new task "${task}" to the list`);
         await this.page.getByPlaceholder('Type your task here').fill(`${task}`);
-        return task
     }
 
+    async generateTask() {
+        console.log('I\'m using a "funny generator" to generate an auto generated task to add...');
+        const task = generateRandomSentence();
+        this.addTask(task);
+        return task;
+    }
 }
-
