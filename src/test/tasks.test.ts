@@ -1,8 +1,8 @@
 import { closePage, setupPage } from '../test-kit/setup-page';
 import { Browser, BrowserContext, Page } from 'playwright';
 import { ToDoList } from '../test-kit/todo-list-driver';
-import { assert } from 'console';
 import { expect } from 'playwright/test';
+import { after } from 'mocha';
 
 describe('My ToDo List Page Tests', () => {
     let page: Page, context: BrowserContext, browser: Browser;
@@ -15,6 +15,7 @@ describe('My ToDo List Page Tests', () => {
     });
 
     beforeEach(async () => {
+        page = await context.newPage();
         await page.goto('localhost:3000');
     });
 
@@ -30,23 +31,24 @@ describe('My ToDo List Page Tests', () => {
         const myToDoList = new ToDoList(page)
         const taskRandomIndex = await myToDoList.getRandomIndex(await myToDoList.getNumberOfItemsInList())
         const taskText = await myToDoList.getTaskFromList(taskRandomIndex)
-        const {isFound, taskIndex} = await myToDoList.isTaskInList(taskText)
+        const {isFound} = await myToDoList.isTaskInList(taskText)
         expect(isFound).toBe(true)
 
     });
 
+    
     it('Delete existing task from the list', async () => {       
         
         const taskToRemove = "Bake Cake"
 
         const myToDoList = new ToDoList(page)
         const itemsInListBeforeDeletion = await myToDoList.getNumberOfItemsInList()
-        const { isFound: isFound1, taskIndex: taskIndex1 } = await myToDoList.isTaskInList(taskToRemove)
+        const { isFound: isFound1 } = await myToDoList.isTaskInList(taskToRemove)
         expect(isFound1).toBe(true)
         await myToDoList.deleteTaskFromList(taskToRemove)    
         
         //run same test to check if task indeed deleted from the list
-        const { isFound: isFound2, taskIndex: taskIndex2 } = await myToDoList.isTaskInList(taskToRemove)
+        const { isFound: isFound2 } = await myToDoList.isTaskInList(taskToRemove)
         expect(isFound2).toBe(false)
 
         const itemsInListAfterDeletion = await myToDoList.getNumberOfItemsInList()
@@ -69,7 +71,7 @@ describe('My ToDo List Page Tests', () => {
         const myToDoList = new ToDoList(page)
         const task = await myToDoList.typeNewTask()
         await page.getByRole('button', { name: 'Add' }).click()
-        const { isFound, taskIndex } = await myToDoList.isTaskInList(task)
+        const { isFound } = await myToDoList.isTaskInList(task)
         expect(isFound).toBe(true)
 
     });
