@@ -65,6 +65,9 @@
     border: 0px solid black;
     margin: 0px 0px 0px 10px;
     flex-grow: 80;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .delete--task-button {
