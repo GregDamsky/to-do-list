@@ -1,5 +1,4 @@
 .main {
-
     border: 1px solid black;
     padding: 20px 30px 20px 20px;
 }
@@ -41,8 +40,9 @@
 
 .footer--input {
     min-height: auto;
-    min-width: 400px;
-    height: 100%;
+    min-width: 380px;
+    height: 120%;
+    margin: 5px;
 }
 
 .list--added-task {
