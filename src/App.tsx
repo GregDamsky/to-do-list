@@ -2,7 +2,6 @@ import { ChangeEvent, useState } from 'react';
 import styles from './App.module.scss';
 import TasksList from './components/TasksList';
 import NewTask from './components/NewTask';
-import Classnames from 'classnames';
 
 
 
