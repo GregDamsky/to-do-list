@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../App.module.scss';
 import { Item } from '../types';
+import { Button as MaterialButton} from '@mui/material';
 
 
 function TasksList( props: {items: Item[], onDelete: (id: number) => void, clearAll: () => void}) {
@@ -19,7 +20,7 @@ function TasksList( props: {items: Item[], onDelete: (id: number) => void, clear
                         ) : <h3>List is empty!</h3>
                     } 
                 </ul>
-                <button className={styles['clear--all-button']} onClick={props.clearAll}>Clear All</button>
+                <MaterialButton variant="contained" sx={{fontSize:16, width: 350, padding: 1, margin: 1.5, borderRadius: 3}} onClick={props.clearAll} color="error" size="large" disabled={props.items.length === 0}>Clear All</MaterialButton>
             </div>
             );
         }         
