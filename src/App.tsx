@@ -13,6 +13,10 @@ function App() {
         setNewTaskItem(event.target.value)
     }
 
+    function clearTyping(){
+        setNewTaskItem("")
+    }
+
     function addItem() {
         setTasksArray([...tasksArray, { id: (tasksArray.length > 0 ) ? tasksArray.slice(-1)[0].id + 1 : 0, item: newTaskItem }])
         setNewTaskItem("")
@@ -31,8 +35,7 @@ function App() {
         <main className={styles.main}>
             <h2 className={styles.title}>My ToDo List</h2>
             <TasksList items={tasksArray} onDelete={deleteTask} clearAll={clearTasksList} />
-            <NewTask item={newTaskItem} typeText={textTyping} onAdd={addItem} />
-
+            <NewTask item={newTaskItem} typeText={textTyping} onAdd={addItem} onClear={clearTyping} />
         </main>
     );
 }
