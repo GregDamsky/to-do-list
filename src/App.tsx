@@ -8,6 +8,7 @@ import NewTask from './components/NewTask';
 function App() {
     const [tasksArray, setTasksArray] = useState([{ id: 0, item: "Buy Milk" }, { id: 1, item: "Go Run" }, { id: 2, item: "Make Dinner" }, { id: 3, item: "Bake Cake" }]);
     const [newTaskItem, setNewTaskItem] = useState('')
+    const [editTaskId, setEditTaskId] = useState(-1)
 
     function textTyping(event: ChangeEvent<HTMLInputElement>) {
         setNewTaskItem(event.target.value)
@@ -31,10 +32,14 @@ function App() {
         setTasksArray([])
     }
 
+    function editTask(id: number) {
+        setEditTaskId(id)
+    }
+
     return (
         <main className={styles.main}>
             <h2 className={styles.title}>My ToDo List</h2>
-            <TasksList items={tasksArray} onDelete={deleteTask} clearAll={clearTasksList} />
+            <TasksList items={tasksArray} editedTaskId={editTaskId} onDelete={deleteTask} onEdit={editTask} clearAll={clearTasksList} />
             <NewTask item={newTaskItem} typeText={textTyping} onAdd={addItem} onClear={clearTyping} />
         </main>
     );
