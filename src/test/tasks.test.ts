@@ -7,6 +7,7 @@ import { getRandomIndex } from '../test-kit/helpers';
 
 describe('My ToDo List Page Tests', () => {
     let page: Page, context: BrowserContext, browser: Browser;
+    const myInitialArrayOfTasks = ['Buy Milk', 'Go Run', 'Make Dinner', 'Bake Cake'];
 
     before(async function () {
         const { page: newPage, context: newContext, browser: newBrowser } = await setupPage();
@@ -30,8 +31,7 @@ describe('My ToDo List Page Tests', () => {
 
     it('has all existing items in the list', async () => {
         const myToDoList = new ToDoList(page);
-        const myFullArrayOfTasks = ['Buy Milk', 'Go Run', 'Make Dinner', 'Bake Cake'];
-        expect(await myToDoList.getAllListItemTitles()).toStrictEqual(myFullArrayOfTasks);
+        expect(await myToDoList.getAllListItemTitles()).toStrictEqual(myInitialArrayOfTasks);
     });
 
     it('deletes task from the list', async () => {
@@ -53,7 +53,7 @@ describe('My ToDo List Page Tests', () => {
 
     it('deletes all tasks in the list using the "clear all" button', async () => {
         const myToDoList = new ToDoList(page);
-        await page.getByRole('button', { name: 'Clear All' }).click();
+        await myToDoList.clickOnButton('Clear All');
         expect(await myToDoList.getNumberOfItemsInList(), '').toBe(0);
     });
 
@@ -62,7 +62,7 @@ describe('My ToDo List Page Tests', () => {
 
         const myToDoList = new ToDoList(page);
         await myToDoList.addTask(taskToAdd);
-        await page.getByRole('button', { name: 'Add' }).click();
+        await myToDoList.clickOnButton('Add');
         const isFound = await myToDoList.isTaskInList(taskToAdd);
         expect(isFound).toBe(true);
     });
@@ -70,7 +70,7 @@ describe('My ToDo List Page Tests', () => {
     it('adds a randomly generated task to the list', async () => {
         const myToDoList = new ToDoList(page);
         const task = await myToDoList.generateTask();
-        await page.getByRole('button', { name: 'Add' }).click();
+        await myToDoList.clickOnButton('Add');
         const isFound = await myToDoList.isTaskInList(task);
         expect(isFound).toBe(true);
     });

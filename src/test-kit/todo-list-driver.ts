@@ -76,4 +76,8 @@ export class ToDoList {
         this.addTask(task);
         return task;
     }
+
+    async clickOnButton(text: string) {
+        await this.page.getByRole('button', { name: `${text}` }).click();
+    }
 }
