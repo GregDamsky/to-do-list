@@ -54,17 +54,22 @@
 
 }
 
-.delete--task-button {
-    margin-left: 0px;
-    flex-grow: 1;
+.delete--task-button, .edit--task-button {
+    margin-left: -5px;
     font-style: normal;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    gap: 0px 5px;
+    justify-content:space-between;
+    gap: 3px;
     text-align: center;
     flex-basis: 0px;
 }
+
+.save--task-button {
+    margin-left: -1px;
+    margin-right: 5px;
+}
+
 
 .title {
     margin: 0px 0px 12px;

@@ -30,16 +30,24 @@ function App() {
 
     function clearTasksList() {
         setTasksArray([])
+        setEditTaskId(-1)
     }
 
     function editTask(id: number) {
         setEditTaskId(id)
     }
 
+    function saveItem(idToSave: number, itemToSave: string) {
+        tasksArray.splice(idToSave, 1, {id: idToSave,  item: itemToSave})
+        setTasksArray(tasksArray)
+        setEditTaskId(-1)
+        setNewTaskItem("")
+     }
+
     return (
         <main className={styles.main}>
             <h2 className={styles.title}>My ToDo List</h2>
-            <TasksList items={tasksArray} editedTaskId={editTaskId} onDelete={deleteTask} onEdit={editTask} clearAll={clearTasksList} />
+            <TasksList item={newTaskItem} itemsArr={tasksArray} editedTaskId={editTaskId} onDelete={deleteTask} onEdit={editTask} typeTextToEdit={textTyping} onSave={saveItem} clearAll={clearTasksList} />
             <NewTask item={newTaskItem} typeText={textTyping} onAdd={addItem} onClear={clearTyping} />
         </main>
     );

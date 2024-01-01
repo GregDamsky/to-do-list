@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css'
 function NewTask( props: {item: string, onAdd: () => void, onClear: () => void, typeText: (event: ChangeEvent<HTMLInputElement>) => void}) {
     return (
         <footer className={styles['footer--task']}>
-            <input type="text" className={styles['footer--input']} onChange={props.typeText} placeholder="Type your task here" value={props.item}/>
+            <input type="text" name="add-task-text" className={styles['footer--input']} onChange={props.typeText} placeholder="Type your task here" value={props.item}/>
             {props.item !== "" ? 
             <SemanticButton.Group>
                 <SemanticButton positive onClick={props.onAdd}>Add Task</SemanticButton>
