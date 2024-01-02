@@ -1,89 +1,32 @@
 .main {
-    border: 1px solid black;
-    padding: 20px 30px 20px 20px;
-}
-
-
-.list--item {
-    display: flex;
-    flex-direction: row;
-    padding: 0px;
-    gap: 15px;
-    align-items: center;
-    font-size: 1.1em;
-    line-height: 1;
-    border-radius: 8px;
-    margin: 0px 0px 5px;
-    flex-grow: 0.8;
-    border: 1px solid black;
-    grid-auto-flow: column;
-    list-style-type: none;
-}
-
-.ul--tasks--list {
-    margin: 0px;
-    width: 100%;
+  border: 1px solid black;
+  padding: 20px 30px 20px 20px;
 }
 
 .footer--task {
-    margin: 0px;
-    display: flex;
-    align-items: center;
-    line-height: 1.1;
-    font-weight: 500;
-    gap: 0px;
-    text-align: center;
-    height: 30px;
-    justify-content: space-evenly;
-
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+  font-weight: 500;
+  gap: 0px;
+  text-align: center;
+  height: 30px;
+  justify-content: space-evenly;
 }
 
 .footer--input {
-    min-height: auto;
-    min-width: 380px;
-    height: 120%;
-    margin: 5px;
+  min-height: auto;
+  min-width: 380px;
+  height: 120%;
+  margin: 5px;
 }
-
-.list--added-task {
-    border: 0px solid black;
-    margin: 0px 0px 0px 10px;
-    flex-grow: 80;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-}
-
-.delete--task-button, .edit--task-button {
-    margin-left: -5px;
-    font-style: normal;
-    display: flex;
-    flex-direction: row;
-    justify-content:space-between;
-    gap: 3px;
-    text-align: center;
-    flex-basis: 0px;
-}
-
-.save--task-button {
-    margin-left: -1px;
-    margin-right: 5px;
-}
-
 
 .title {
-    margin: 0px 0px 12px;
-}
-
-.tasks {
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+  margin: 0px 0px 12px;
 }
 
 .footer--add-button {
-    background-color: #ACD3C0;
-    font-style: italic;
+  background-color: #acd3c0;
+  font-style: italic;
 }
