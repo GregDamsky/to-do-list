@@ -1,10 +1,10 @@
 import { ChangeEvent } from 'react';
-import styles from '../App.module.scss';
+import styles from './NewTask.module.scss';
 import { Button as SemanticButton } from 'semantic-ui-react';
 
 function NewTask(props: { item: string; onAdd: () => void; onClear: () => void; typeText: (event: ChangeEvent<HTMLInputElement>) => void }) {
     return (
-        <footer className={styles['footer--task']}>
+        <footer className={styles['footer--new-task']}>
             <input type="text" name="new-task-text" className={styles['footer--input']} onChange={props.typeText} placeholder="Type your task here" value={props.item} />
             {props.item !== '' ? (
                 <SemanticButton.Group>
