@@ -53,6 +53,8 @@
   border: 0px solid black;
   margin: 0px 0px 0px 10px;
   flex-grow: 1;
+  width: 80px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
