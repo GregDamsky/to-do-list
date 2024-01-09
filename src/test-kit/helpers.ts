@@ -1,3 +1,12 @@
+export enum buttonActions {
+    add = 'Add Task',
+    edit = 'Edit',
+    save = 'Save',
+    delete = 'Delete',
+    clear = 'Clear',
+    clearAll = 'Clear All',
+}
+
 export function getRandomIndex(maxIndex: number) {
     if (maxIndex > -1) {
         return Math.floor(Math.random() * maxIndex);
@@ -7,51 +16,11 @@ export function getRandomIndex(maxIndex: number) {
 }
 
 export function generateRandomSentence(): string {
-    const word1 = [
-        'Complete',
-        'Prepare',
-        'Garden',
-        'Study',
-        'Handle',
-        'Exercise',
-        'Stay',
-        'Plan',
-        'Daily',
-        'Home',
-        'Chores',
-        'Write',
-        'Outdoor',
-        'Letters',
-    ];
+    const word1 = ['Complete', 'Prepare', 'Garden', 'Study', 'Handle', 'Exercise', 'Stay', 'Plan', 'Daily', 'Home', 'Chores', 'Write', 'Outdoor', 'Letters'];
 
-    const word2 = [
-        'daily',
-        'evening',
-        'and',
-        'read',
-        'errands',
-        'productive',
-        'study',
-        'routine',
-        'tasks',
-        'hiking',
-        'for',
-    ];
+    const word2 = ['daily', 'evening', 'and', 'read', 'errands', 'productive', 'study', 'routine', 'tasks', 'hiking', 'for'];
 
-    const word3 = [
-        'chores',
-        'meal',
-        'write',
-        'housework',
-        'online',
-        'travel',
-        'relax',
-        'hobbies',
-        'exercise',
-        'call',
-        'today',
-        'books',
-    ];
+    const word3 = ['chores', 'meal', 'write', 'housework', 'online', 'travel', 'relax', 'hobbies', 'exercise', 'call', 'today', 'books'];
 
     const randomWord1 = word1[Math.floor(Math.random() * word1.length)];
     const randomWord2 = word2[Math.floor(Math.random() * word2.length)];

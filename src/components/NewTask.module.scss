@@ -1,0 +1,18 @@
+.footer--new-task {
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+  font-weight: 500;
+  gap: 0px;
+  text-align: center;
+  height: 30px;
+  justify-content: space-evenly;
+}
+
+.footer--input {
+  min-height: auto;
+  min-width: 380px;
+  height: 120%;
+  margin: 5px;
+}
