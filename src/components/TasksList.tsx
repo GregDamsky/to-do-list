@@ -1,11 +1,11 @@
-import { Button as MaterialButton } from '@mui/material';
 import { ChangeEvent } from 'react';
-import { Item } from '../types';
 import styles from './TaskList.module.scss';
+import { TaskItem } from '../types';
+import { Button as MaterialButton } from '@mui/material';
 
 interface TasksListProps {
     item: string;
-    itemsArr: Item[];
+    itemsArr: TaskItem[];
     editedTaskId?: number;
     onDelete: (id: number) => void;
     onEdit: (id: number) => void;

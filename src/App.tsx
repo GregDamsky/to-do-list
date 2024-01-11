@@ -3,14 +3,11 @@ import 'semantic-ui-css/semantic.min.css';
 import styles from './App.module.scss';
 import NewTask from './components/NewTask';
 import TasksList from './components/TasksList';
+import { myArray } from './mock-data';
+import { TaskItem } from './types';
 
 function App() {
-    const [tasksArray, setTasksArray] = useState([
-        { id: 0, item: 'Buy Milk' },
-        { id: 1, item: 'Go Run' },
-        { id: 2, item: 'Make Dinner' },
-        { id: 3, item: 'Bake Cake' },
-    ]);
+    const [tasksArray, setTasksArray] = useState<TaskItem[]>(myArray);
     const [newTaskItem, setNewTaskItem] = useState('');
     const [editedTaskItem, setEditedTaskItem] = useState('');
     const [editTaskId, setEditTaskId] = useState<number | undefined>();
