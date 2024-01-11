@@ -7,6 +7,9 @@ on:
         branches:
             - main
     workflow_dispatch:
+concurrency:
+  group: test-commit-windows-${{ github.ref_name =='main' && github.run_id || github.ref }}${{github.run_attempt != 1 && github.run_id  || ''}}
+  cancel-in-progress: ${{ github.ref_name =='main' }}
 jobs:
   test:
     name: ${{ matrix.platform }} / ${{ matrix.node-version }}
