@@ -1,10 +1,9 @@
-import { ChangeEvent } from 'react';
-// import styles from '../App.module.scss';
-import styles from './TaskList.module.scss';
-import { Item } from '../types';
 import { Button as MaterialButton } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Item } from '../types';
+import styles from './TaskList.module.scss';
 
-function TasksList(props: {
+interface TasksListProps {
     item: string;
     itemsArr: Item[];
     editedTaskId?: number;
@@ -13,7 +12,9 @@ function TasksList(props: {
     onSave: (id: number, taskToSave: string) => void;
     clearAll: () => void;
     typeTextToEdit: (event: ChangeEvent<HTMLInputElement>) => void;
-}) {
+}
+
+function TasksList(props: TasksListProps) {
     {
         return (
             <div className={styles.tasks}>

@@ -1,9 +1,9 @@
-import { closePage, setupPage } from '../test-kit/setup-page';
-import { Browser, BrowserContext, Page } from 'playwright';
-import { ToDoList } from '../test-kit/todo-list-driver';
-import { test, expect } from 'playwright/test';
 import { after } from 'mocha';
+import { Browser, BrowserContext, Page } from 'playwright';
+import { expect, test } from 'playwright/test';
 import { buttonActions } from '../test-kit/helpers';
+import { closePage, setupPage } from '../test-kit/setup-page';
+import { ToDoList } from '../test-kit/todo-list-driver';
 
 describe('My ToDo List Page Tests', () => {
     let page: Page, context: BrowserContext, browser: Browser;

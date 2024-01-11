@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from 'react';
-import styles from './App.module.scss';
-import TasksList from './components/TasksList';
-import NewTask from './components/NewTask';
 import 'semantic-ui-css/semantic.min.css';
+import styles from './App.module.scss';
+import NewTask from './components/NewTask';
+import TasksList from './components/TasksList';
 
 function App() {
     const [tasksArray, setTasksArray] = useState([
@@ -17,9 +17,7 @@ function App() {
 
     function textTyping(event: ChangeEvent<HTMLInputElement>) {
         const { name } = event.target;
-        name === 'new-task-text'
-            ? setNewTaskItem(event.target.value)
-            : setEditedTaskItem(event.target.value);
+        name === 'new-task-text' ? setNewTaskItem(event.target.value) : setEditedTaskItem(event.target.value);
     }
 
     function clearTyping() {
@@ -27,16 +25,12 @@ function App() {
     }
 
     function addItem() {
-        setTasksArray([
-            ...tasksArray,
-            { id: tasksArray.length > 0 ? tasksArray.slice(-1)[0].id + 1 : 0, item: newTaskItem },
-        ]);
+        setTasksArray([...tasksArray, { id: tasksArray.length > 0 ? tasksArray.slice(-1)[0].id + 1 : 0, item: newTaskItem }]);
         setNewTaskItem('');
     }
 
     function deleteTask(id: number) {
-        const newTasksArray = tasksArray.filter((item) => item.id !== id);
-        setTasksArray(newTasksArray);
+        setTasksArray((prev) => prev.filter((item) => item.id !== id));
     }
 
     function clearTasksList() {
@@ -69,12 +63,7 @@ function App() {
                 onSave={saveItem}
                 clearAll={clearTasksList}
             />
-            <NewTask
-                item={newTaskItem}
-                typeText={textTyping}
-                onAdd={addItem}
-                onClear={clearTyping}
-            />
+            <NewTask item={newTaskItem} typeText={textTyping} onAdd={addItem} onClear={clearTyping} />
         </main>
     );
 }

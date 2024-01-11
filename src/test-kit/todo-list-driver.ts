@@ -1,5 +1,5 @@
 import { Locator, Page } from 'playwright';
-import { generateRandomSentence, buttonActions } from './helpers';
+import { buttonActions, generateRandomSentence } from './helpers';
 
 export class ToDoList {
     constructor(private page: Page) {}
