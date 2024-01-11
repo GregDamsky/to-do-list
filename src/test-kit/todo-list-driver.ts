@@ -1,5 +1,5 @@
 import { Locator, Page } from 'playwright';
-import { generateRandomSentence } from './helpers';
+import { buttonActions, generateRandomSentence } from './helpers';
 
 export class ToDoList {
     constructor(private page: Page) {}
@@ -25,11 +25,7 @@ export class ToDoList {
     }
 
     async getTaskFromListByIndex(taskIndex: number) {
-        const taskTitle = await this.page
-            .getByRole('listitem')
-            .getByRole('heading')
-            .nth(taskIndex)
-            .textContent();
+        const taskTitle = await this.page.getByRole('listitem').getByRole('heading').nth(taskIndex).textContent();
 
         if (!taskTitle) {
             throw new Error(`No such id (${taskIndex}) in ToDoList`);
@@ -47,22 +43,28 @@ export class ToDoList {
         console.log(`searching ${task} in the list...`);
         const titles = await this.getAllListItemTitles();
         const isFound = titles.includes(task);
-        isFound
-            ? console.log(`task: ${task} was found in the list...`)
-            : console.log(`task: ${task} is not in the list...`);
+        isFound ? console.log(`task: ${task} was found in the list...`) : console.log(`task: ${task} is not in the list...`);
         return isFound;
     }
 
-    async deleteTaskFromList(task: string) {
-        if (!(await this.isTaskInList(task))) {
-            throw new Error(`Couldn't find task: "${task}" in list... No tasks to delete`);
+    async clickOnTasksLocatorButton(task: string, buttonText: string) {
+        const mytask = await this.getTaskLocatorByTitle(task);
+        console.log(`${buttonText} task: ${task}`);
+        const buttonLocator = mytask.locator('button', { hasText: `${buttonText}` });
+        await buttonLocator.click();
+    }
+
+    async performActionOnTaskFromList(action: string, currentTask: string, replaceWithTask?: string) {
+        if (action === buttonActions.save) {
+            replaceWithTask ? await this.page.getByPlaceholder(`${currentTask}`).fill(replaceWithTask) : console.log(`${replaceWithTask} is undefined... Nothing to replace`);
         }
 
-        const mytask = await this.getTaskLocatorByTitle(task);
-        console.log(`deleting task: ${task}`);
-        const deleteButton = mytask.locator('button', { hasText: 'Delete' });
-        await deleteButton.click();
-        console.log(`Task: ${task} successfully deleted`);
+        if (!(await this.isTaskInList(currentTask)) && action !== buttonActions.save) {
+            throw new Error(`Couldn't find task: "${currentTask}" in list... No tasks to ${action}`);
+        }
+        await this.clickOnTasksLocatorButton(currentTask, action);
+
+        console.log(`Task: ${currentTask} successfully ${action}d`);
     }
 
     async addTask(task: string) {
@@ -75,5 +77,9 @@ export class ToDoList {
         const task = generateRandomSentence();
         this.addTask(task);
         return task;
+    }
+
+    async clickOnButton(text: string) {
+        await this.page.getByRole('button', { name: `${text}` }).click();
     }
 }
