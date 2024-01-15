@@ -23,6 +23,7 @@
     "semantic-ui-react": "^2.1.5"
   },
   "devDependencies": {
+    "@playwright/browser-chromium": "^1.40.1",
     "@ts-tools/node": "^5.0.2",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.39",

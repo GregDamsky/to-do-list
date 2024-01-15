@@ -1,20 +1,25 @@
 name: test
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+concurrency:
+  group: test-${{ github.ref_name =='main' && github.run_id || github.ref }}${{github.run_attempt != 1 && github.run_id  || ''}}
+  cancel-in-progress: ${{ github.ref_name != 'main' }}
 jobs:
   test:
+    timeout-minutes: 5
     name: ${{ matrix.platform }} / ${{ matrix.node-version }}
     runs-on: ${{ matrix.platform }}
     strategy:
-        fail-fast: false
-        matrix:
-            platform: [ubuntu-latest, windows-latest, macos-latest]
-            node-version: [18,20] 
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18, 20]
     steps:
       - uses: actions/checkout@v4
 
@@ -22,6 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
 
       - run: npm ci
 
