@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 import styles from './TaskList.module.scss';
 import { TaskItem } from '../types';
 import { Button as MaterialButton } from '@mui/material';
+import TasksButton from './TasksButton';
 
 interface TasksListProps {
     item: string;
@@ -11,7 +12,7 @@ interface TasksListProps {
     onEdit: (id: number) => void;
     onSave: (id: number, taskToSave: string) => void;
     clearAll: () => void;
-    typeTextToEdit: (event: ChangeEvent<HTMLInputElement>) => void;
+    handleTextToEdit: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function TasksList(props: TasksListProps) {
@@ -27,26 +28,38 @@ function TasksList(props: TasksListProps) {
                                         <h3 data-task-title={task.item} title={task.item} className={styles['list--added-task']}>
                                             {task.item}
                                         </h3>
-                                        <button className={styles['delete--task-button']} onClick={() => props.onDelete(task.id)}>
-                                            <img src="../src/icons/delete.png" className={styles['icon--task-button']} />
-                                            Delete
-                                        </button>
-                                        <button className={styles['edit--task-button']} onClick={() => props.onEdit(task.id)}>
-                                            <img src="../src/icons/edit.png" className={styles['icon--task-button']} />
-                                            Edit
-                                        </button>
+                                        <TasksButton
+                                            buttonStyle={styles['delete--task-button']}
+                                            onClick={() => props.onDelete(task.id)}
+                                            iconSrc="../src/icons/delete.png"
+                                            iconStyle={styles['icon--task-button']}
+                                            buttonText="Delete"
+                                        ></TasksButton>
+                                        <TasksButton
+                                            buttonStyle={styles['edit--task-button']}
+                                            onClick={() => props.onEdit(task.id)}
+                                            iconSrc="../src/icons/edit.png"
+                                            iconStyle={styles['icon--task-button']}
+                                            buttonText="Edit"
+                                        ></TasksButton>
                                     </>
                                 ) : (
                                     <>
-                                        <input type="text" name="edit-task-text" placeholder={task.item} onChange={props.typeTextToEdit} className={styles['list--added-task']} value={props.item} />
-                                        <button className={styles['save--task-button']} onClick={() => props.onSave(task.id, props.item)}>
-                                            <img src="../src/icons/save.png" className={styles['icon--task-button']} />
-                                            Save
-                                        </button>
-                                        <button className={styles['edit--task-button']} onClick={() => props.onEdit(task.id)}>
-                                            <img src="../src/icons/edit.png" className={styles['icon--task-button']} />
-                                            Edit
-                                        </button>
+                                        <input type="text" name="edit-task-text" placeholder={task.item} onChange={props.handleTextToEdit} className={styles['list--added-task']} value={props.item} />
+                                        <TasksButton
+                                            buttonStyle={styles['save--task-button']}
+                                            onClick={() => props.onSave(task.id, props.item)}
+                                            iconSrc="../src/icons/save.png"
+                                            iconStyle={styles['icon--task-button']}
+                                            buttonText="Save"
+                                        ></TasksButton>
+                                        <TasksButton
+                                            buttonStyle={styles['edit--task-button']}
+                                            onClick={() => props.onEdit(task.id)}
+                                            iconSrc="../src/icons/edit.png"
+                                            iconStyle={styles['icon--task-button']}
+                                            buttonText="Edit"
+                                        ></TasksButton>
                                     </>
                                 )}
                             </li>

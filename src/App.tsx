@@ -12,7 +12,7 @@ function App() {
     const [editedTaskItem, setEditedTaskItem] = useState('');
     const [editTaskId, setEditTaskId] = useState<number | undefined>();
 
-    function textTyping(event: ChangeEvent<HTMLInputElement>) {
+    function handleTextChange(event: ChangeEvent<HTMLInputElement>) {
         const { name } = event.target;
         name === 'new-task-text' ? setNewTaskItem(event.target.value) : setEditedTaskItem(event.target.value);
     }
@@ -40,9 +40,13 @@ function App() {
     }
 
     function saveItem(idToSave: number, itemToSave: string) {
-        tasksArray.splice(idToSave, 1, { id: idToSave, item: itemToSave });
+        setTasksArray((prev) =>
+            prev.map((task) => {
+                if (task.id === idToSave) return { ...task, item: itemToSave };
+                return task;
+            })
+        );
 
-        setTasksArray([...tasksArray]); // clone
         setEditTaskId(undefined);
         setEditedTaskItem('');
     }
@@ -56,11 +60,11 @@ function App() {
                 editedTaskId={editTaskId}
                 onDelete={deleteTask}
                 onEdit={editTask}
-                typeTextToEdit={textTyping}
+                handleTextToEdit={handleTextChange}
                 onSave={saveItem}
                 clearAll={clearTasksList}
             />
-            <NewTask item={newTaskItem} typeText={textTyping} onAdd={addItem} onClear={clearTyping} />
+            <NewTask item={newTaskItem} handleTextToAdd={handleTextChange} onAdd={addItem} onClear={clearTyping} />
         </main>
     );
 }

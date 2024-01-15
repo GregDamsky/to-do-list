@@ -6,13 +6,13 @@ interface NewTaskProps {
     item: string;
     onAdd: () => void;
     onClear: () => void;
-    typeText: (event: ChangeEvent<HTMLInputElement>) => void;
+    handleTextToAdd: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function NewTask(props: NewTaskProps) {
     return (
         <footer className={styles['footer--new-task']}>
-            <input type="text" name="new-task-text" className={styles['footer--input']} onChange={props.typeText} placeholder="Type your task here" value={props.item} />
+            <input type="text" name="new-task-text" className={styles['footer--input']} onChange={props.handleTextToAdd} placeholder="Type your task here" value={props.item} />
             {props.item !== '' ? (
                 <SemanticButton.Group>
                     <SemanticButton positive onClick={props.onAdd}>
